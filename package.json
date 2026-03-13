@@ -1,0 +1,16 @@
+{
+  "name": "cypress",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test1": "cypress run",
+    "npmtest": "npm run test1",
+    "cypress:install": "cypress install"
+  },
+  "author": "Bharati ra\b\b",
+  "license": "ISC",
+  "dependencies": {
+    "cypress": "^15.11.0"
+  }
+}
