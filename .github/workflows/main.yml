@@ -1,152 +1,159 @@
-# name: Cypress Tests
-# on:
-#   push:
-#     branches: [main]
-#     pull_request:
-# jobs:
-#   cypress-run E2E test:
-#     runs-on: ubuntu-latest
-#     # Runs tests in parallel with matrix strategy https://on.cypress.io/parallelization
-#     # https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations
-#     # Also see warning here https://github.com/cypress-io/github-action#parallel
-#     strategy:
-#       fail-fast: false # https://github.com/cypress-io/github-action/issues/48
-#       matrix:
-#         containers: [1, 2] # Uses 2 parallel instances
-#     steps:
-#       - name: Checkout
-#         uses: actions/checkout@v4 #actions/checkout@v6
-#       - name: Cypress run
-#         # Uses the official Cypress GitHub action https://github.com/cypress-io/github-action
-#         uses: cypress-io/github-action@v7
-#         with:
-#           # Starts web server for E2E tests - replace with your own server invocation
-#           # https://docs.cypress.io/app/continuous-integration/overview#Boot-your-server
-#           # start: npm start   #comment this becuase my project not run on web server
-#           # wait-on: "http://localhost:3000" # Waits for above
-#           # Records to Cypress Cloud
-#           # https://docs.cypress.io/cloud/get-started/setup
-#           install: true
-#           command: npm run test1
-#           record: true
-#           parallel: true # Runs test in parallel using settings above
-#         env:
-#           # For recording and parallelization you must set your CYPRESS_RECORD_KEY
-#           # in GitHub repo → Settings → Secrets → Actions
-#           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
-#           # Create a token https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
-#           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+# Workflow name displayed in GitHub Actions
 name: Cypress Tests
 
+# Global environment variable configuration
 env:
+  # Forces GitHub Actions to run JavaScript actions using Node 24 runtime
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
+# Events that trigger the workflow
 on:
   push:
-    branches: [main]
-    pull_request:
+    branches: [main]   # Trigger workflow when code is pushed to the main branch
+  pull_request:        # Trigger workflow when a pull request is created or updated
+
 jobs:
+
+  # Job responsible for executing Cypress End-to-End tests
   cypress-run-E2E-test:
+
+    # Use GitHub-hosted Ubuntu runner
     runs-on: ubuntu-latest
+
+    # Strategy configuration for parallel execution
     strategy:
-      fail-fast: false
+      fail-fast: false    # Prevent cancellation of other jobs if one container fails
       matrix:
-        containers: [1, 2]
+        containers: [1, 2]   # Run Cypress tests in 2 parallel containers
+
     steps:
+
+      # Step 1: Checkout repository code into the runner
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Step 2: Run Cypress tests using official Cypress GitHub Action
       - name: Cypress run
         uses: cypress-io/github-action@v7
         with:
-          install: true
-          command: npm run test
-          record: true
-          parallel: true
+          install: true           # Automatically install project dependencies
+          command: npm run test   # Run Cypress tests via npm script
+          record: true            # Record test results to Cypress Dashboard
+          parallel: true          # Enable parallel execution across containers
         env:
+          # Cypress Dashboard record key stored securely in GitHub Secrets
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+
+          # GitHub token used for PR integration and status updates
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # Step 3: Upload Cypress test execution videos as artifacts
       - name: Upload Cypress Videos
-        if: always()
+        if: always()   # Execute even if tests fail
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-videos-${{ matrix.containers }}
-          path: cypress/videos
-          if-no-files-found: ignore
+          name: cypress-videos-${{ matrix.containers }}   # Unique artifact name per container
+          path: cypress/videos   # Directory where Cypress stores videos
+          if-no-files-found: ignore   # Ignore step if no videos are generated
+
+      # Step 4: Upload Cypress screenshots only when tests fail
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
-        if: failure()
+        if: failure()   # Execute only if the test step fails
         with:
-          name: cypress-screenshots-${{ matrix.containers }}
-          path: cypress/screenshots
-          if-no-files-found: ignore
+          name: cypress-screenshots-${{ matrix.containers }}  # Unique artifact name
+          path: cypress/screenshots   # Folder containing failure screenshots
+          if-no-files-found: ignore   # Ignore if screenshots folder doesn't exist
+
+      # Step 5: Generate Mochawesome HTML report from JSON test reports
       - name: Generate Mochawesome Report
-        run: |
-          npx mochawesome-merge cypress/reports/**/*.json > mochawesome.json
+        run: | # Merge multiple JSON reports into a single report file # Generate HTML report from merged JSON report
+          npx mochawesome-merge cypress/reports/**/*.json > mochawesome.json       
           npx marge mochawesome.json
+
+      # Step 6: Upload generated HTML test report as GitHub artifact
       - name: Upload Test Report
-        if: always()
+        if: always()   # Upload report even if tests fail
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-html-report-${{ matrix.containers }}
-          path: mochawesome-report
+          name: cypress-html-report-${{ matrix.containers }}   # Artifact name per container
+          path: mochawesome-report   # Directory containing generated HTML report
           if-no-files-found: ignore
 
+      # Step 7: Automatically comment on Pull Request after tests complete
       - name: Comment PR with test result
-        if: always()
+        if: always()   # Always run regardless of success or failure
         uses: marocchino/sticky-pull-request-comment@v2
         with:
           message: |
             ✅ Cypress Tests Completed
             Check GitHub Actions for details.
 
+      # Step 8: Send Slack notification if the Cypress tests fail
       - name: Notify Slack on failure
-        if: failure()
+        if: failure()   # Trigger only if test job fails
         env:
+          # Slack webhook URL stored securely in GitHub Secrets
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
+        run: | # Send failure message to Slack channel with repository and run link
           curl -X POST -H 'Content-type: application/json' \
           --data '{
           "text":"❌ Cypress Tests Failed\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }' \
           $SLACK_WEBHOOK_URL
 
-        # Upload JSON reports only
+      # Step 9: Upload JSON test reports generated by Mochawesome
+      # These reports will later be merged into a single HTML report
       - name: Upload JSON Reports
-        if: always()
+        if: always()   # Ensure reports are uploaded even if tests fail
         uses: actions/upload-artifact@v4
         with:
-          name: json-reports-${{ matrix.containers }}
-          path: cypress/reports
+          name: json-reports-${{ matrix.containers }}   # Unique artifact per container
+          path: cypress/reports   # Directory containing Mochawesome JSON reports
           if-no-files-found: ignore
 
+  # Second job responsible for merging reports from all containers
   merge-report:
+
+    # Use Ubuntu runner for report merging
     runs-on: ubuntu-latest
+
+    # Ensure this job runs only after Cypress tests finish
     needs: cypress-run-E2E-test
 
     steps:
+
+      # Step 1: Checkout repository code again for this job
       - name: Checkout
         uses: actions/checkout@v4
 
+      # Step 2: Install project dependencies using clean install
       - name: Install dependencies
         run: npm ci
 
+      # Step 3: Install Mochawesome report tools required to merge and generate reports
       - name: Install Report Dependencies
         run: |
           npm install mochawesome mochawesome-merge mochawesome-report-generator
 
+      # Step 4: Download JSON report artifacts from previous Cypress job
       - name: Download Reports
         uses: actions/download-artifact@v4
         with:
-          path: reports
+          path: reports   # Store downloaded artifacts in reports directory
 
+      # Step 5: Merge all JSON reports and generate a single HTML report
       - name: Merge Mochawesome Reports
-        run: |
+        run: | 
+        # Combine JSON reports from all containers
           npx mochawesome-merge reports/**/*.json > mochawesome.json
+          # Generate final HTML report from merged JSON
           npx mochawesome-report-generator mochawesome.json
 
+      # Step 6: Upload final merged HTML report as GitHub artifact
       - name: Upload Final HTML Report
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-html-report
-          path: mochawesome-report
+          name: cypress-html-report   # Final merged report artifact
+          path: mochawesome-report   # Folder containing final HTML report
