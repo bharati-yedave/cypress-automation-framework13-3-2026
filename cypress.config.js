@@ -3,6 +3,10 @@ const mochawesome = require("cypress-mochawesome-reporter/plugin");
 //const { allureCypress } = require("allure-cypress/reporter");
 
 module.exports = defineConfig({
+  retries: {
+    runMode: 2,
+    openMode: 0,
+  },
   projectId: "hudznz",
   allowCypressEnv: true, //make it false fpor allure
   // mochawesome reports

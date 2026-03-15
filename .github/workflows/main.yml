@@ -38,7 +38,10 @@
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 name: Cypress Tests
-on: [push]
+on:
+  push:
+    branches: [main]
+    pull_request:
 jobs:
   cypress-run-E2E-test:
     runs-on: ubuntu-latest
@@ -59,3 +62,40 @@ jobs:
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Upload Cypress Videos
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: cypress-videos
+          path: cypress/videos
+      - name: Upload Cypress Screenshots
+        uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+      - name: Generate Mochawesome Report
+        run: |
+          npx mochawesome-merge cypress/reports/cypress-mochawesome-reporter/*.json > mochawesome.json
+          npx marge mochawesome.json
+      - name: Upload Test Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-html-report
+          path: mochawesome-report
+      - name: Comment PR with test result
+        if: always()
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+           message: |
+          ✅ Cypress Tests Completed
+              Check GitHub Actions for details.   
+
+      - name: Notify Slack on failure
+        if: failure()
+        run: |
+         curl -X POST -H 'Content-type: application/json' \
+         --data '{
+         "text":"❌ Cypress Tests Failed\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+         }' \
+        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
