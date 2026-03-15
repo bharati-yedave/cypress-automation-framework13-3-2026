@@ -34,7 +34,7 @@ jobs:
         uses: cypress-io/github-action@v7
         with:
           install: true # Automatically install project dependencies
-          command: npm run test # Run Cypress tests via npm script
+          command: npm run keyrecordparallel # Run Cypress tests via npm script
           record: true # Record test results to Cypress Dashboard
           parallel: true # Enable parallel execution across containers
         env:

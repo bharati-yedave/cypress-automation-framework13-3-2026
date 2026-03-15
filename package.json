@@ -6,6 +6,7 @@
   "scripts": {
     "test": "cypress run",
     "test1": "node_modules\\.bin\\cypress run",
+    "keyrecordparallel": "cypress run --record --key 9fd12b64-220c-4e57-a265-1d0d1c8dc891 --parallel",
     "npmruntest": "npm run test",
     "npmruntest1": "npm run test1",
     "cypress:install": "cypress install"
