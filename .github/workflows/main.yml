@@ -77,20 +77,29 @@ jobs:
         uses: actions/upload-artifact@v4
         if: failure()
         with:
-          name: cypress-screenshots
+          name: cypress-screenshots-${{ matrix.containers }}
           path: cypress/screenshots
           if-no-files-found: ignore
       - name: Generate Mochawesome Report
         run: |
           npx mochawesome-merge cypress/reports/**/*.json > mochawesome.json
           npx marge mochawesome.json
-      - name: Upload Test Report
+      # - name: Upload Test Report
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: cypress-html-report-${{ matrix.containers }}
+      #     path: mochawesome-report
+      #     if-no-files-found: ignore
+      # Upload JSON reports only
+      - name: Upload JSON Reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-html-report-${{ matrix.containers }}
-          path: mochawesome-report
+          name: json-reports-${{ matrix.containers }}
+          path: cypress/reports
           if-no-files-found: ignore
+
       - name: Comment PR with test result
         if: always()
         uses: marocchino/sticky-pull-request-comment@v2
@@ -109,3 +118,26 @@ jobs:
           "text":"❌ Cypress Tests Failed\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           }' \
           $SLACK_WEBHOOK_URL
+  merge-report:
+    runs-on: ubuntu-latest
+    needs: cypress-run-E2E-test
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download Reports
+        uses: actions/download-artifact@v4
+        with:
+          path: reports
+
+      - name: Merge Mochawesome Reports
+        run: |
+          npx mochawesome-merge reports/**/*.json > mochawesome.json
+          npx marge mochawesome.json
+
+      - name: Upload Final HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-html-report
+          path: mochawesome-report
