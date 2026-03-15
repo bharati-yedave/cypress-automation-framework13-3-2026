@@ -151,4 +151,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: cypress-html-report # Final merged report artifact
-          path: mochawesome-report # Folder containing final HTML report
+          path: mochawesome-report ## Folder containing final HTML report
