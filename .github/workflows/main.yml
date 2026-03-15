@@ -81,7 +81,7 @@ jobs:
       - name: Upload Test Report
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-html-report
+          name: cypress-html-report-${{ matrix.containers }}
           path: mochawesome-report
       - name: Comment PR with test result
         if: always()
