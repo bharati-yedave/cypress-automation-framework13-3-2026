@@ -7,6 +7,7 @@ module.exports = defineConfig({
     runMode: 2,
     openMode: 0,
   },
+  video: true,
   projectId: "hudznz",
   allowCypressEnv: true, //make it false fpor allure
   // mochawesome reports

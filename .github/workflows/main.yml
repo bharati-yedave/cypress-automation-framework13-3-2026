@@ -38,6 +38,10 @@
 #           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 name: Cypress Tests
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 on:
   push:
     branches: [main]
@@ -63,26 +67,30 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Upload Cypress Videos
-        uses: actions/upload-artifact@v4
         if: always()
+        uses: actions/upload-artifact@v4
         with:
-          name: cypress-videos
+          name: cypress-videos-${{ matrix.containers }}
           path: cypress/videos
+          if-no-files-found: ignore
       - name: Upload Cypress Screenshots
         uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: cypress-screenshots
           path: cypress/screenshots
+          if-no-files-found: ignore
       - name: Generate Mochawesome Report
         run: |
           npx mochawesome-merge cypress/reports/**/*.json > mochawesome.json
           npx marge mochawesome.json
       - name: Upload Test Report
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: cypress-html-report-${{ matrix.containers }}
           path: mochawesome-report
+          if-no-files-found: ignore
       - name: Comment PR with test result
         if: always()
         uses: marocchino/sticky-pull-request-comment@v2
