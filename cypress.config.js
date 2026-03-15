@@ -10,23 +10,23 @@ module.exports = defineConfig({
   projectId: "hudznz",
   allowCypressEnv: true, //make it false fpor allure
   // mochawesome reports
-  // reporter: "mochawesome",
-  // reporterOptions: {
-  //   reportDir: "cypress/reports/mochawesome",
-  //   overwrite: false,
-  //   html: true,
-  //   json: true,
-  //},
-  //cypress-mochawesome-reporter
-  reporter: "cypress-mochawesome-reporter",
+  reporter: "mochawesome",
   reporterOptions: {
     reportDir: "cypress/reports",
-    charts: true,
-    overwrite: true,
-    reportPageTitle: "Automation Test Report",
-    embeddedScreenshots: true,
-    inlineAssets: true,
+    overwrite: false,
+    html: true,
+    json: true,
   },
+  //cypress-mochawesome-reporter
+  // reporter: "cypress-mochawesome-reporter",
+  // reporterOptions: {
+  //   reportDir: "cypress/reports",
+  //   charts: true,
+  //   overwrite: true,
+  //   reportPageTitle: "Automation Test Report",
+  //   embeddedScreenshots: true,
+  //   inlineAssets: true,
+  // },
   //Allure report
   // env: {
   //   allure: true,
@@ -35,7 +35,7 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       // implement node event listeners here
       this.screenshotOnRunFailure = true;
-      mochawesome(on); //for  /*reporter: "cypress-mochawesome-reporter"*/
+      //mochawesome(on); //for  /*reporter: "cypress-mochawesome-reporter"*/
       //for allure
       // allureCypress(on, config);
       // config.experimentalCypressEnv = true;
