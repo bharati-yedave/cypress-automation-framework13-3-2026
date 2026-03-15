@@ -76,7 +76,7 @@ jobs:
           path: cypress/screenshots
       - name: Generate Mochawesome Report
         run: |
-          npx mochawesome-merge cypress/reports/cypress-mochawesome-reporter/*.json > mochawesome.json
+          npx mochawesome-merge cypress/reports/**/*.json > mochawesome.json
           npx marge mochawesome.json
       - name: Upload Test Report
         uses: actions/upload-artifact@v4

@@ -39,7 +39,7 @@ module.exports = defineConfig({
       //for allure
       // allureCypress(on, config);
       // config.experimentalCypressEnv = true;
-      // return config;
+      return config;
     },
   },
 });

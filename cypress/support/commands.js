@@ -32,3 +32,4 @@ import("@4tw/cypress-drag-drop");
 import("cypress-file-upload");
 import("cypress-real-events");
 import("cypress-terminal-report");
+import("cypress-mochawesome-reporter/register");
