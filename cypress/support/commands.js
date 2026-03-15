@@ -23,3 +23,12 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+/// <reference types="cypress" />
+/// <reference types="cypress-xpath" />
+import("cypress-iframe");
+import("cypress-iframe");
+import("@4tw/cypress-drag-drop");
+import("cypress-file-upload");
+import("cypress-real-events");
+import("cypress-terminal-report");

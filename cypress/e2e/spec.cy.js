@@ -1,5 +1,7 @@
-describe('template spec', () => {
-  it('passes', () => {
-    cy.visit('https://example.cypress.io')
-  })
-})
+describe("Testing ORANGEHRM Scenario", () => {
+  it("Nvigate to URL specs.cy.js", () => {
+    cy.visit(
+      "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login",
+    );
+  });
+});
