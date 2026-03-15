@@ -80,10 +80,10 @@ jobs:
           name: cypress-screenshots-${{ matrix.containers }}
           path: cypress/screenshots
           if-no-files-found: ignore
-      - name: Generate Mochawesome Report
-        run: |
-          npx mochawesome-merge cypress/reports/**/*.json > mochawesome.json
-          npx marge mochawesome.json
+      # - name: Generate Mochawesome Report
+      #   run: |
+      #     npx mochawesome-merge cypress/reports/**/*.json > mochawesome.json
+      #     npx marge mochawesome.json
       # - name: Upload Test Report
       #   if: always()
       #   uses: actions/upload-artifact@v4
