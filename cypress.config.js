@@ -20,7 +20,7 @@ module.exports = defineConfig({
   //cypress-mochawesome-reporter
   reporter: "cypress-mochawesome-reporter",
   reporterOptions: {
-    reportDir: "cypress/reports/cypress-mochawesome-reporter",
+    reportDir: "cypress/reports",
     charts: true,
     overwrite: true,
     reportPageTitle: "Automation Test Report",
