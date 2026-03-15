@@ -92,13 +92,13 @@ jobs:
       #     path: mochawesome-report
       #     if-no-files-found: ignore
       # Upload JSON reports only
-      - name: Upload JSON Reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: json-reports-${{ matrix.containers }}
-          path: cypress/reports
-          if-no-files-found: ignore
+      # - name: Upload JSON Reports
+      #   if: always()
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: json-reports-${{ matrix.containers }}
+      #     path: cypress/reports
+      #     if-no-files-found: ignore
 
       - name: Comment PR with test result
         if: always()
