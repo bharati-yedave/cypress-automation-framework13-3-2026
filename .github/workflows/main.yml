@@ -119,33 +119,33 @@ jobs:
           }' \
           $SLACK_WEBHOOK_URL
 
-merge-report:
-  runs-on: ubuntu-latest
-  needs: cypress-run-E2E-test
+  merge-report:
+    runs-on: ubuntu-latest
+    needs: cypress-run-E2E-test
 
-  steps:
-    - name: Checkout
-      uses: actions/checkout@v4
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Install dependencies
-      run: npm ci
+      - name: Install dependencies
+        run: npm ci
 
-    - name: Install Report Dependencies
-      run: |
-        npm install mochawesome mochawesome-merge mochawesome-report-generator
+      - name: Install Report Dependencies
+        run: |
+          npm install mochawesome mochawesome-merge mochawesome-report-generator
 
-    - name: Download Reports
-      uses: actions/download-artifact@v4
-      with:
-        path: reports
+      - name: Download Reports
+        uses: actions/download-artifact@v4
+        with:
+          path: reports
 
-    - name: Merge Mochawesome Reports
-      run: |
-        npx mochawesome-merge reports/**/*.json > mochawesome.json
-        npx mochawesome-report-generator mochawesome.json
+      - name: Merge Mochawesome Reports
+        run: |
+          npx mochawesome-merge reports/**/*.json > mochawesome.json
+          npx mochawesome-report-generator mochawesome.json
 
-    - name: Upload Final HTML Report
-      uses: actions/upload-artifact@v4
-      with:
-        name: cypress-html-report
-        path: mochawesome-report
+      - name: Upload Final HTML Report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-html-report
+          path: mochawesome-report
