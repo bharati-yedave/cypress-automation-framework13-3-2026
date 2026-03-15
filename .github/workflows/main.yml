@@ -87,15 +87,17 @@ jobs:
         if: always()
         uses: marocchino/sticky-pull-request-comment@v2
         with:
-           message: |
-          ✅ Cypress Tests Completed
-              Check GitHub Actions for details.   
+          message: |
+            ✅ Cypress Tests Completed
+            Check GitHub Actions for details.
 
       - name: Notify Slack on failure
         if: failure()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         run: |
-         curl -X POST -H 'Content-type: application/json' \
-         --data '{
-         "text":"❌ Cypress Tests Failed\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-         }' \
-        SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+          "text":"❌ Cypress Tests Failed\nRepository: ${{ github.repository }}\nRun: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          }' \
+          $SLACK_WEBHOOK_URL
