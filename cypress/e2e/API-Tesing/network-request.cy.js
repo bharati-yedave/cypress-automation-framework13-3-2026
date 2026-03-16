@@ -18,7 +18,7 @@ describe("Network Testing with get,post,put http methods", () => {
           email: "yedave@gmail.com",
           body: "Hello world",
         },
-      }
+      },
     ).as("getComment");
     cy.get(".network-btn").click();
     cy.wait("@getComment").its("response.statusCode").should("eq", 200);
@@ -36,7 +36,7 @@ describe("Network Testing with get,post,put http methods", () => {
       console.log(response);
       expect(response.body).to.have.property(
         "name",
-        "Using POST in cy.intercept()"
+        "Using POST in cy.intercept()",
       );
       expect(response.headers).to.have.property("server");
     });
@@ -54,7 +54,7 @@ describe("Network Testing with get,post,put http methods", () => {
         statusCode: 404,
         body: { error: message },
         delay: 500,
-      }
+      },
     ).as("putComment");
 
     cy.get(".network-put").click();

@@ -17,7 +17,7 @@ describe("Network Testing", () => {
           email: "yedave@gmail.com",
           body: "Hello world",
         },
-      }
+      },
     ).as("getComment");
     cy.get(".network-btn").click();
     cy.wait("@getComment").its("response.statusCode").should("eq", 200);
