@@ -3,21 +3,28 @@ pipeline {
 
     stages {
 
+        stage('Clean Workspace') {
+            steps {
+                bat 'rmdir /s /q node_modules'
+                bat 'del package-lock.json'
+            }
+        }
+
         stage('Install Dependencies') {
             steps {
                 bat 'npm install'
             }
         }
 
-        stage('Install Cypress') {
+        stage('Install Cypress Binary') {
             steps {
-                bat 'npm run cypress:install'
+                bat 'npx cypress install'
             }
         }
 
         stage('Run Cypress Tests') {
             steps {
-                bat 'npm run test'
+                bat 'npx cypress run'
             }
         }
 
@@ -25,16 +32,6 @@ pipeline {
             steps {
                 bat 'npm run allure:generate'
             }
-        }
-    }
-
-    post {
-        always {
-            allure([
-                includeProperties: false,
-                jdk: '',
-                results: [[path: 'allure-results']]
-            ])
         }
     }
 }
