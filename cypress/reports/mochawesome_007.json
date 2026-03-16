@@ -1,0 +1,105 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 1,
+    "passes": 1,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-03-16T05:09:58.197Z",
+    "end": "2026-03-16T05:10:06.806Z",
+    "duration": 8609,
+    "testsRegistered": 1,
+    "passPercent": 100,
+    "pendingPercent": 0,
+    "other": 0,
+    "hasOther": false,
+    "skipped": 0,
+    "hasSkipped": false
+  },
+  "results": [
+    {
+      "uuid": "3d941f89-0d5f-4e06-81ff-ffb8bdd22e10",
+      "title": "",
+      "fullFile": "cypress\\e2e\\spec3.cy.js",
+      "file": "cypress\\e2e\\spec3.cy.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "15f0bd6e-2b23-46b0-a187-d99000cf7c5d",
+          "title": "Testing ORANGEHRM Scenario",
+          "fullFile": "",
+          "file": "",
+          "beforeHooks": [],
+          "afterHooks": [],
+          "tests": [
+            {
+              "title": "Naigate to URL specs3.cy.js",
+              "fullTitle": "Testing ORANGEHRM Scenario Naigate to URL specs3.cy.js",
+              "timedOut": null,
+              "duration": 5824,
+              "state": "passed",
+              "speed": "medium",
+              "pass": true,
+              "fail": false,
+              "pending": false,
+              "context": "{\n  \"title\": \"cypress-mochawesome-reporter-videos-passed\",\n  \"value\": \"cypress\\\\e2e\\\\spec3.cy.js\"\n}",
+              "code": "cy.visit(\"https://opensource-demo.orangehrmlive.com/web/index.php/auth/login\");",
+              "err": {},
+              "uuid": "b14e7e59-9fd5-440d-8bc2-aeda444bf22c",
+              "parentUUID": "15f0bd6e-2b23-46b0-a187-d99000cf7c5d",
+              "isHook": false,
+              "skipped": false
+            }
+          ],
+          "suites": [],
+          "passes": [
+            "b14e7e59-9fd5-440d-8bc2-aeda444bf22c"
+          ],
+          "failures": [],
+          "pending": [],
+          "skipped": [],
+          "duration": 5824,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 2000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "7.2.0"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": false,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": {
+        "reportDir": "cypress/reports",
+        "overwrite": false,
+        "html": false,
+        "json": true
+      },
+      "version": "6.3.2"
+    }
+  }
+}

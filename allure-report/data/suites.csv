@@ -1,0 +1,7 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","5174","NAvigate to URL","Testing ORANGEHRM Scenario","2026-03-14","passed","2026-03-14","","","",""
+"","6847","Navigate to URL Mynewtest.cy.js","Testing ORANGEHRM Scenario","2026-03-16","passed","2026-03-16","","","",""
+"","7068","Naigate to URL specs.cy.js","Testing ORANGEHRM Scenario","2026-03-16","passed","2026-03-16","","","",""
+"","6649","Nvigate to URL specs.cy.js","Testing ORANGEHRM Scenario","2026-03-14","passed","2026-03-14","","","",""
+"","6984","Naigate to URL specs2.cy.js","Testing ORANGEHRM Scenario","2026-03-16","passed","2026-03-16","","","",""
+"","5998","Naigate to URL specs3.cy.js","Testing ORANGEHRM Scenario","2026-03-16","passed","2026-03-16","","","",""
