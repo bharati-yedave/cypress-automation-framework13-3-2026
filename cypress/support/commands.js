@@ -33,3 +33,4 @@ import("cypress-file-upload");
 import("cypress-real-events");
 import("cypress-terminal-report");
 import("cypress-mochawesome-reporter/register");
+import("allure-cypress");

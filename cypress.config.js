@@ -1,6 +1,6 @@
 const { defineConfig } = require("cypress");
 const mochawesome = require("cypress-mochawesome-reporter/plugin");
-//const { allureCypress } = require("allure-cypress/reporter");
+const { allureCypress } = require("allure-cypress/reporter");
 
 module.exports = defineConfig({
   retries: {
@@ -29,17 +29,17 @@ module.exports = defineConfig({
   //   inlineAssets: true,
   // },
   //Allure report
-  // env: {
-  //   allure: true,
-  // },
+  env: {
+    allure: true,
+  },
   e2e: {
     setupNodeEvents(on, config) {
       // implement node event listeners here
       this.screenshotOnRunFailure = true;
       //mochawesome(on); //for  /*reporter: "cypress-mochawesome-reporter"*/
       //for allure
-      // allureCypress(on, config);
-      // config.experimentalCypressEnv = true;
+      allureCypress(on, config);
+      config.experimentalCypressEnv = true;
       return config;
     },
   },
