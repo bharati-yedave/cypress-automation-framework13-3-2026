@@ -62,7 +62,22 @@ pipeline {
                 jdk: '',                    // Use default JDK
                 results: [[path: 'allure-results']]  // Location of Allure result files
             ])
+
+            // Send email notification
+        emailext(
+            subject: "Cypress Test Report - ${currentBuild.currentResult}",
+            body: """
+            Build Status: ${currentBuild.currentResult}
+            Job Name: ${env.JOB_NAME}
+            Build Number: ${env.BUILD_NUMBER}
+
+            View Report:
+            ${env.BUILD_URL}allure
+            """,
+            to: "bharatirahujade@gmail.com"
+        )
         }
     }
 }
-//updatede
+//updatede huif fxmp mwdb mgxr
+//
