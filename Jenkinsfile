@@ -79,5 +79,3 @@ pipeline {
         }
     }
 }
-//updatede huif fxmp mwdb mgxr
-//
