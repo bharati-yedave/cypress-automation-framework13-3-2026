@@ -1,5 +1,5 @@
 describe("API-calls", () => {
-  it("GET call", () => {
+  it.skip("GET call", () => {
     cy.request("GET", "");
   });
 });

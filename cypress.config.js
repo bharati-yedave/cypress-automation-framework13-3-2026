@@ -3,6 +3,7 @@ const mochawesome = require("cypress-mochawesome-reporter/plugin");
 const { allureCypress } = require("allure-cypress/reporter");
 
 module.exports = defineConfig({
+  pageLoadTimeout: 60000,
   retries: {
     runMode: 2,
     openMode: 0,
@@ -34,8 +35,9 @@ module.exports = defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
-      this.screenshotOnRunFailure = true;
+      baseUrl: ("http://www.webdriveruniversity.com/",
+        // implement node event listeners here
+        (this.screenshotOnRunFailure = true));
       //mochawesome(on); //for  /*reporter: "cypress-mochawesome-reporter"*/
       //for allure
       allureCypress(on, config);

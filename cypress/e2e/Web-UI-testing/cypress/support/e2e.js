@@ -14,12 +14,4 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import "./commands";
-import "cypress-iframe";
-import "@4tw/cypress-drag-drop";
-import "cypress-file-upload";
-import "cypress-real-events";
-import "cypress-terminal-report";
-import "cypress-mochawesome-reporter/register";
-import "allure-cypress";
-import "./commands";
+import './commands'

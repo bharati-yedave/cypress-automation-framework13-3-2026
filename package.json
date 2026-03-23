@@ -19,7 +19,8 @@
   "dependencies": {
     "cypress": "^15.11.0",
     "cypress-real-events": "^1.15.0",
-    "cypress-terminal-report": "^7.3.3"
+    "cypress-terminal-report": "^7.3.3",
+    "xml2js": "^0.6.2"
   },
   "devDependencies": {
     "@4tw/cypress-drag-drop": "^2.3.1",

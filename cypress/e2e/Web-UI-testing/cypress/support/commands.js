@@ -23,22 +23,3 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
-
-/// <reference types="cypress" />
-/// <reference types="cypress-xpath" />
-import("cypress-iframe");
-import("cypress-iframe");
-import("@4tw/cypress-drag-drop");
-import("cypress-file-upload");
-import("cypress-real-events");
-import("cypress-terminal-report");
-import("cypress-mochawesome-reporter/register");
-import("allure-cypress");
-
-Cypress.Commands.add("login", (firstName, lastName, email, message) => {
-  cy.get("input[name = 'first_name']").type(firstName);
-  cy.get("input[name = 'last_name']").type(lastName);
-  cy.get("input[name = 'email']").type(email);
-  cy.get("textarea[name = 'message']").type(message);
-  cy.get("input[value = 'SUBMIT']").click();
-});
