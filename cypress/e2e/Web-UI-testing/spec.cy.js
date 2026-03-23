@@ -2,6 +2,7 @@ import PageClass from "../../pages/SpecPageClass";
 
 describe("LOGIN scenario", () => {
   const loginPage = new PageClass();
+  let date = new Date();
   let userData;
   beforeEach(() => {
     cy.visit("http://www.webdriveruniversity.com/");
@@ -20,5 +21,11 @@ describe("LOGIN scenario", () => {
       userData.message,
     );
     cy.url().should("include", "webdriveruniversity");
+  });
+  it("Datepicker", () => {
+    date.setDate(date.getDate());
+    cy.log(date.getDate());
+    date.setDate(date.getDate() + 5);
+    cy.log(date.getDate());
   });
 });
